@@ -87,9 +87,11 @@ class PortConnection
 end #class PortConnection
 
 		config_param :tag, :string
-		config_param :port, :integer, default: nil
-		config_param :bind, :string, :default => '0.0.0.0'
+		config_param :port, :integer, default: 5140
+		config_param :bind, :string, default: '0.0.0.0'
 		config_param :queuesleep, :integer, default: 10
+		config_param :cache_ttl, :integer, default: 4000
+		config_param :definitions, :string, default: nil
 
 		def configure(conf)
 			super
