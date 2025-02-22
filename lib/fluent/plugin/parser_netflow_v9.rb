@@ -79,7 +79,7 @@ module Fluent
 					def netflowipfix_field_for(type, length, p_fields, category='option', key)
 						field = p_fields.dig(category, type)
 
-						$log.warn("Undefined field", type: type, length: length, key: key) unless field
+						$log.warn("Undefined field", category: category, type: type, length: length, key: key) unless field
 						unless field
 							# TODO?: repeated message, but acceptable now
 							# Skip unsupported field type=201 length=4 key="172.17.0.1|0|2049
