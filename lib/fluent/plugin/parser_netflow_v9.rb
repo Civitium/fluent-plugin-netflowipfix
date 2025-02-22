@@ -77,7 +77,10 @@ module Fluent
 					end  # def handle_flowset_template
 
 					def netflowipfix_field_for(type, length, p_fields, category='option', key)
-						unless field = p_fields[category][type]
+						field = p_fields.dig(category, type)
+
+						$log.warn("Undefined field", type: type, length: length, key: key) unless field
+						unless field
 							# TODO?: repeated message, but acceptable now
 							# Skip unsupported field type=201 length=4 key="172.17.0.1|0|2049
 							fkey = "#{key}|#{type}|#{length}"
@@ -278,7 +281,11 @@ module Fluent
 					if @definitions
 					  raise ConfigError, "definitions file #{@definitions} doesn't exist" unless File.exist?(@definitions)
 					  begin
-						@fields9['option'].merge!(YAML.load_file(@definitions))
+						flddata = YAML.load_file(@definitions)
+
+						@fields9.merge!(flddata) if flddata
+
+						flddata = nil
 					  rescue => e
 						raise ConfigError, "Bad syntax in definitions file #{@definitions}, error_class = #{e.class.name}, error = #{e.message}"
 					  end
@@ -322,7 +329,11 @@ module Fluent
 					if @definitions
 					  raise ConfigError, "definitions file #{@definitions} doesn't exist" unless File.exist?(@definitions)
 					  begin
-						@fields10['option'].merge!(YAML.load_file(@definitions))
+						flddata = YAML.load_file(@definitions)
+
+						@fields10.merge!(flddata) if flddata
+
+						flddata = nil
 					  rescue => e
 						raise ConfigError, "Bad syntax in definitions file #{@definitions}, error_class = #{e.class.name}, error = #{e.message}"
 					  end
