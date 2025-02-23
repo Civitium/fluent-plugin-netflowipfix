@@ -269,6 +269,7 @@ class ParserThread
 		@parser_v5 = nil
 		@parser_v9 = nil
 		@parser_v10 = nil
+		@closing_connection = true
 		GC.start
 	end
 	
@@ -278,6 +279,7 @@ class ParserThread
 	
 	def run
 		loop do
+			break if @closing_connection
 			if @udpQueue.length == 0
 				sleep(@queuesleep)
 
